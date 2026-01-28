@@ -1,0 +1,326 @@
+## TC01 - Valid username
+Precondition: App installed / Web accessible
+Steps:
+1. Open WeMine Mobile app / WeMineOffice Web
+2. Enter valid username
+Expected Result:
+1. Username accepted
+2. API /user/who is triggered
+
+## TC02 - Invalid username
+Precondition: App installed / Web accessible
+Steps: 
+1. Open WeMine Mobile app / WeMineOffice Web
+2. Enter username not registered
+Expected Result:
+1. Error message displayed (e.g. "User not found")
+2. Microsoft login screen is not opened
+
+## TC03 - Empty username
+Precondition: App installed / Web accessible
+Steps: 
+1. Open WeMine Mobile app / WeMineOffice Web
+2. Leave username field empty and submit
+Expected Result:
+1. Validation error shown
+2. No API request sent
+
+## TC04 - Username with special characters
+Precondition: App installed / Web accessible
+Steps: 
+1. Open WeMine Mobile app / WeMineOffice Web
+2. Enter username with special charachter
+Expected Result:
+1. Validation follows defined rules
+2. Proper error message if invalid
+
+## TC05 - User belongs to single tenant
+Precondition:
+1. Username exists
+2. User is associated with exactly one tenant
+Steps:
+1. Open WeMine Mobile app / WeMineOffice Web
+2. Enter valid username
+3. Click Continue
+4. App sends request to /user/who
+5. Backend returns tenant information
+Expected Result:
+1. Tenant is resolved automatically
+2. Microsoft login screen opens
+3. No tenant selection UI shown
+
+## TC06 - User belongs to multiple tenants
+Precondition:
+1. Username exists
+2. User linked to more than one tenant
+
+Steps:
+1. Open WeMine Mobile app / WeMineOffice Web
+2. Enter valid username
+3. Submit username
+4. /user/who returns multiple tenants
+5. App displays tenant selection screen
+6. User selects one tenant
+Expected Result:
+1. Selected tenant is stored in session
+2. Microsoft login screen opens using selected tenant
+
+## TC07 - Tenant inactive or disabled
+Precondition:
+1. Username exists
+2. Tenant status = inactive / disabled
+Steps:
+1. Open WeMine Mobile app / WeMineOffice Web
+2. Enter valid username
+3. Submit
+4. /user/who returns tenant with inactive status
+Expected Result:
+1. Error message displayed (e.g. "Tenant is inactive")
+2. Login flow stops
+3. Microsoft login screen is not opened
+
+## TC08 - /user/who API failure
+Precondition: Backend returns 500 / timeout
+Steps:
+1. Open WeMine Mobile app / WeMineOffice Web
+2. Enter valid username
+3. Submit username
+4. Simulate /user/who API failure
+Expected Result:
+1. Error message displayed
+2. Retry button available
+3. User remains on username screen
+
+## TC09 - Microsoft login with correct password
+Precondition: Valid Microsoft account
+Steps:
+1. Reach Microsoft login screen
+2. Enter correct password
+3. Submit credentials
+Expected Result:
+1. Authentication successful
+2. Redirect back to app
+3. Access token received
+
+## TC10 - Microsoft login with wrong password
+Precondition: Valid Microsoft account
+Steps:
+1. Enter valid username
+2. Reach Microsoft login
+3. Enter incorrect password
+4. Submit
+Expected Result:
+1. Microsoft error shown
+2. User stays on login screen
+3. No app session created
+
+## TC11 - User cancels Microsoft login
+Precondition: Valid Microsoft account
+Steps:
+1. Reach Microsoft login screen
+2. Click Cancel / Back
+Expected Result:
+1. User redirected back to app
+2. Username screen displayed
+3. No authentication token stored
+
+## TC12 - Microsoft login timeout
+Precondition: Valid Microsoft account
+Steps:
+1. Reach Microsoft login
+2. Do not interact until timeout occurs
+Expected Result:
+1. Timeout error shown
+2. Retry option available
+3. No login session created
+
+## TC13 - Successful /user/me request
+Precondition: Microsoft login successful
+Steps:
+1. App sends /user/me request
+2. Backend returns user profile
+Expected Result:
+1. User profile loaded
+2. User role, permissions stored locally
+3. Proceed to master data sync
+
+## TC14 - /user/me returns 401
+Precondition: Microsoft login successful
+Steps:
+1. Complete Microsoft login
+2. Simulate /user/me returning 401
+Expected Result:
+1. User logged out
+2. Session cleared
+3. Redirected to username screen
+
+## TC15 - Partial user profile data
+Precondition: Optional fields missing (e.g. phone, avatar)
+Steps:
+1. Login successfully
+2. App receives incomplete /user/me response
+Expected Result:
+1. App doesn't crash
+2. Missing fields handled gracefully
+3. User can proceed
+
+## TC16 - First time login (no master data)
+Precondition: Fresh install / clear app data
+Steps:
+1. Login successfully
+2. App calls /tenant/master
+Expected Result:
+1. Master data download starts
+2. Progress bar shown
+3. No user interaction allowed during sync
+
+## TC17 - Master data already exists
+Precondition: App has local master data
+Steps:
+1. Login successfully
+2. App checks master data version
+3. App requests /tenant/master
+Expected Result:
+1. Only updated data downloaded (if any)
+2. Progress bar reflects update process
+
+## TC18 - /tenant/master API failure
+Precondition: App has local master data
+Steps:
+1. Login successfully
+2. Trigger master data sync
+3. Simulate API failure
+Expected Result:
+1. Error message displayed
+2. Retry option shown
+3. App does not proceed without master data
+
+## TC19 - All master data endpoints succeed
+Precondition: App has local master data
+Steps:
+1. Start master data sync
+2. App sequentially calls each endpoints (locations, sublocations, areas, employees, forms)
+3. Observe progress bar
+Expected Result:
+1. Progress bar increases correctly
+2. All data stored locally
+3. Sync completes successfully
+
+## TC20 - One master data endpoint fails
+Precondition: App has local master data
+Steps:
+1. Start master data sync
+2. Simulate failure on one endpoint (e.g. forms)
+Expected Result:
+1. Sync stops or retries based on design
+2. Error clearly states failed endpoint
+3. User cannot proceed with partial data
+
+## TC21 - Slow internet connection
+Precondition: Network throttling enabled (Slow 3G / 2G)
+Steps:
+1. Start master data sync
+2. Observe progress bar behavior
+Expected Result:
+1. Progress bar updates gradually
+2. App remains responsive
+3. No unexpected timeout or crash
+4. Sync completes successfully
+
+## TC22 - App closed during master data sync
+Precondition:
+1. User authenticated successfully
+2. Master data sync has started
+3. App is running in foreground
+Steps:
+1. Start master data sync
+2. Force close the app (kill process)
+3. Reopen the app
+Expected Result:
+1. App resumes or restarts sync safely
+2. No corrupted or duplicated master data
+3. Progress resume or restart clearly
+
+## TC23 - Restart prompt shown after first update master data
+Precondition: Master data sync completed for the first time
+Steps:
+1. Complete full master data sync
+2. Update master data
+Expected Result:
+1. Restart prompt displayed
+2. Message explains restart is required
+3. Restart action available
+
+## TC24 - User accepts restart
+Precondition: Restart prompt displayed
+Steps:
+1. Click Restart button
+2. App reloads
+Expected Result:
+1. App restarts successfully
+2. User remains logged in
+3. Updated master data is used
+4. User lands on main dashboard
+
+## TC25 - User ignores restart prompt
+Precondition:
+1. Restart prompt displayed
+2. App has not restarted
+Steps:
+1. Dismiss or ignore restart prompt
+2. Attempt to navigate app or open features
+Expected Result:
+1. App blocks further usage or forces restart
+2. Clear instruction to restart shown
+
+## TC26 - Login attempt without internet
+Precondition: Device has no internet connection
+Steps:
+1. Open WeMine Mobile app / WeMineOffice Web
+2. Enter username
+3. Submit login
+Expected Result:
+1. Offline error message shown
+2. Login blocked
+3. No API requests sent
+
+## TC27 - Previously loggedin user open app offline
+Precondition:
+1. User logged in previously
+2. Master data fully cached locally
+3. User session still valid
+4. Device is offline
+Steps:
+1. Disable internet
+2. Open WeMine Mobile app / WeMineOffice Web
+Expected Result:
+1. App opens successfully
+2. Cached data accessible
+3. Offline indicator displayed
+
+## TC28 - Token expired while offline
+Precondition:
+1. User logged in previously
+2. Auth token expired
+3. Master data cached
+4. Device is offline
+Steps:
+1. Disable internet
+2. Open WeMine Mobile app / WeMineOffice Web
+3. Attempt to access app features
+Expected Result:
+1. Limited access allowed or access blocked (based on requirement)
+2. User informed session expired
+3. Re-login required when internet is available
+
+## TC29 - Logout
+Precondition:
+1. User logged in successfully
+2. Active session exists
+Steps:
+1. Open WeMine Mobile app / WeMineOffice Web
+2. Click Logout
+3. Restart app
+Expected Result:
+1. Session cleared
+2. Username login screen shown
