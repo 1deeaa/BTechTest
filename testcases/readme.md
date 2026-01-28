@@ -15,9 +15,11 @@ I prioritize API automation for business rules and integrations, and only automa
 
 ## From: Flow 0 - Login Tenant Resolution 
 API: /user/who
+
 Why automate:
 - Critical auth logic
 - Multi-tenant bugs are VERY expensive
+
 Validations:
 1. Correct tenant returned
 2. Inactive tenant blocked
@@ -25,9 +27,11 @@ Validations:
 
 ## From: Flow 1 - Dynamic Form Submission
 API: Form submission endpoint
+
 Why automate:
 - Backend must accept flexible schemas
 - Prevents silent data corruption
+
 Validations:
 1. Payload matches form definition
 2. Submission stored correctly
@@ -40,6 +44,7 @@ Why automate:
     - Workflow Service
     - Notification Service
 - UI tests are unreliable for notifications
+
 Validations:
 1. Hazard created
 2. Follow up task generated
@@ -53,6 +58,7 @@ Validations:
 Why automate: 
 - Entry point to the entire system
 - Breaks = nobody can use the app
+
 Scenario:
 1. Enter username
 2. Complete Microsoft login (can be mocked)
@@ -60,11 +66,13 @@ Scenario:
 4. Download master data
 5. Show progress bar
 6. Show restart prompt
+
 Assertions:
 1. Login succeeds
 2. Progress bar reaches 100%
 3. Restart prompt appears
 4. App usable after restart
+
 Why Playwright fits:
 1. UI + backend integration check
 
@@ -73,15 +81,18 @@ Why automate:
 - Dynamic form = high regression risk
 - Form Builder changes often
 - Validates form rendering + submission E2E
+
 Scenario:
 1. Open Equipment Inspection
 2. Create new inspection
 3. Fill dynamic fields (text, select, image)
 4. Submit form
+
 Assertions:
 1. Fields rendered based on Form Code
 2. Submission succeeds
 3. Entry appears in submission list
+
 Why Playwright fits:
 1. Strong form interaction
 2. File upload support
@@ -91,14 +102,17 @@ Why automate:
 - Cross feature critical path
 - Involves permissions
 - Business critical safety flow
+
 Scenario:
 1. User submits hazard
 2. Login as PIC
 3. Open follow up task
 4. Submit resolution
+
 Assertions:
 1. Hazard created
 2. Follow up task visible
 3. Task completed successfully
+
 Why Playwright fits:
 1. E2E ownership flow
