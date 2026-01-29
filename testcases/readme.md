@@ -9,6 +9,8 @@ Hi PT Bukit Teknologi Digital team, thank you so much for moving me forward to l
 2. Manual test cases are separated based on each flows 
 
 ## Automation:
+Automation test cases are in different repository, please clone this repository ``` git clone https://github.com/1deeaa/BTechAutomation.git ```
+
 I prioritize API automation for business rules and integrations, and only automate the most critical E2E user journeys to keep the suite fast, stable, and maintainable. Below are the few example for the most of importances automation test cases:
 
 # API Automation (Playwright) 
