@@ -2,7 +2,7 @@
 
 Hi PT Bukit Teknologi Digital team, thank you so much for moving me forward to learn more about this opportunity. Here are my answers to the technical test. Please help to review and feel free to let me know if you need any additional details. Thank you!
  
-## 🧭 How to read my test results:
+# 🧭 How to read my test results:
 
 ## Manual:
 1. Manual test cases are under testcases/manual folder
