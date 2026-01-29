@@ -2,21 +2,24 @@
 
 Hi PT Bukit Teknologi Digital team, thank you so much for moving me forward to learn more about this opportunity. Here are my answers to the technical test. Please help to review and feel free to let me know if you need any additional details. Thank you!
  
-# How to read my test results:
+## 🧭 How to read my test results:
 
 ## Manual:
 1. Manual test cases are under testcases/manual folder
 2. Manual test cases are separated based on each flows 
 
 ## Automation:
-Automation test cases are in different repository, please clone this repository ``` git clone https://github.com/1deeaa/BTechAutomation.git ```
+Automation test cases are in different repository, please clone this repository 
 
-I prioritize API automation for business rules and integrations, and only automate the most critical E2E user journeys to keep the suite fast, stable, and maintainable. Below are the few example for the most of importances automation test cases:
+``` git clone https://github.com/1deeaa/BTechAutomation.git ```
 
-# API Automation (Playwright) 
+
+I prioritize API automation for business rules and integrations, and only automate the most critical E2E user journeys to keep the suite fast, stable, and maintainable. Below are the few example for the most of importances automation test cases that automated in BTechAutomation repository:
+
+# ⌗ API Automation (Playwright) 
 
 ## From: Flow 0 - Login Tenant Resolution 
-API: /user/who
+💻 API: ``` /user/who ```
 
 Why automate:
 - Critical auth logic
@@ -28,7 +31,7 @@ Validations:
 3. Multiple tenants handled correctly
 
 ## From: Flow 1 - Dynamic Form Submission
-API: Form submission endpoint
+💻 API: Form submission endpoint
 
 Why automate:
 - Backend must accept flexible schemas
@@ -54,7 +57,7 @@ Validations:
 4. Supervisor notified after resolution
 
 
-# E2E Automation (Playwright) 
+# 🏃🏻 E2E Automation (Playwright) 
 
 ## From: Flow 0 - Login + Master Data Sync
 Why automate: 
